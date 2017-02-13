@@ -26,8 +26,9 @@ class Actions {
     this.facetracker = new clm.Tracker({useWebGL: true})
 		this.facetracker.init(pModel) // pModel is a model more to pick from on github
 
-    navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia)
-    navigator.getMedia(
+    window.navigator.getMedia = (window.navigator.getUserMedia ||
+                                 window.navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia)
+    window.navigator.getMedia(
       // constraints
       {
         audio: false
@@ -72,11 +73,18 @@ class Actions {
           , blue = []
           , alpha = []
 
-      for (let x = 0; x < this.pixelResolution; x++) {
+      for (let x = 0; x < this.pixelResolution * this.pixelResolution; x++) {
         red[x] = imgData.data[0 + (4 * x)]
         green[x] = imgData.data[1 + (4 * x)]
         blue[x] = imgData.data[2 + (4 * x)]
         alpha[x] = imgData.data[3 + (4 * x)]
+      }
+
+      return {
+        red: red
+        , green: green
+        , blue: blue
+        , alpha: alpha
       }
     } else {
       return undefined
