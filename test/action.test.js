@@ -1,10 +1,8 @@
 const assert = require('assert')
                 , Actions = require('../app/assets/js/actions')
-
 describe('Action', () => {
 
     let actions
-
     beforeEach((done) => {
         actions = new Actions('')
         done()
@@ -78,6 +76,27 @@ describe('Action', () => {
             assert.deepEqual(imgData.red, [1, 1, 1, 1], 'not returning correct data')
             assert.deepEqual(imgData.green, [1, 2, 3, 3], 'not returning correct data')
             assert.deepEqual(imgData.blue, [3, 3, 3, 3], 'not returning correct data')
+            done()
+        })
+    })
+
+    describe('stream', () => {
+        it('stream', (done) => {
+            var video = document.createElement('VIDEO')       // Create a <button> element
+            video.id = 'video'
+            document.body.appendChild(video)
+            var canvas = document.createElement('CANVAS')       // Create a <button> element
+            canvas.id = 'overlay'
+            document.body.appendChild(canvas)
+            window.navigator.getUserMedia = function (opt, ok, err) {
+                ok('')
+                err.err = 'no error'
+            }
+            window.URL.createObjectURL = function (input) {
+                return input
+            }
+
+            actions.stream()
             done()
         })
     })

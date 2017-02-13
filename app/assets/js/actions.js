@@ -26,8 +26,9 @@ class Actions {
     this.facetracker = new clm.Tracker({useWebGL: true})
 		this.facetracker.init(pModel) // pModel is a model more to pick from on github
 
-    navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia)
-    navigator.getMedia(
+    window.navigator.getMedia = (window.navigator.getUserMedia ||
+                                 window.navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia)
+    window.navigator.getMedia(
       // constraints
       {
         audio: false
