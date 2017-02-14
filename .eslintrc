@@ -13,7 +13,8 @@
     "after": true,
     "afterEach": true,
     "history": true,
-    "$": true
+    "$": true,
+    "Image": true
   },
 
   "rules": {

@@ -16,7 +16,6 @@ class Actions {
     // this.overlayCC.fillText('Loading...', this.canvasFace.width / 2 - 30, this.canvasFace.height / 3)
 
     // this.socket.on('hrUpdate', this.hrUpdate.bind(this))
-    // this.socket.on('frame', this.loadImage.bind(this))
  }
 
   stream () {
@@ -42,7 +41,7 @@ class Actions {
         this.video.src = window.URL.createObjectURL(mediaStream)
         this.video.play()
         this.facetracker.start(this.video)
-        setInterval(this.takePicture.bind(this)
+        setInterval(this.loop.bind(this)
         , 1000 / this.frameRate)
       },
       // handle error
@@ -51,12 +50,13 @@ class Actions {
       })
   }
 
-  takePicture () {
+  loop () {
       this.overlayContext.clearRect(0, 0, this.width, this.height)
       let positions = this.facetracker.getCurrentPosition()
       let box = this.pickBox(positions)
 
 			if (box) {
+          console.log('hit')
 					this.facetracker.draw(this.overlay)
 
           this.overlayContext.strokeRect(box.l, box.t, box.r - box.l, box.b - box.t)
