@@ -1,7 +1,7 @@
 const clm = require('./lib/clmtrackr.js')
   , pModel = require('./lib/model_pca_20_svm.js')
   , HrController = require('./hrController')
-  , ImageAnalyser = require('./ImageAnalyser')
+  , ImageAnalyser = require('./imageAnalyser')
 
 class Actions {
 

@@ -48,12 +48,10 @@ class ImageAnalyser {
           average += value
           count++
         }
-      }, this)
+      })
       if (count === 0) {
-        console.log(22, average / count)
         this.hrController.setCurrentAverage(key, 0)
       } else {
-        console.log(average / count)
         this.hrController.setCurrentAverage(key, average / count)
       }
     }
