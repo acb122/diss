@@ -1,11 +1,13 @@
 const clm = require('./lib/clmtrackr.js')
-const pModel = require('./lib/model_pca_20_svm.js')
+  , pModel = require('./lib/model_pca_20_svm.js')
+  , HrController = require('./hrController')
+  , ImageAnalyser = require('./ImageAnalyser')
 
 class Actions {
 
   constructor(socket) {
     this.socket = socket.socket
-
+    this.hrController = new HrController(socket)
     this.frameRate = 15
     this.width = 1024
     this.height = 768
@@ -23,6 +25,8 @@ class Actions {
     this.video = document.getElementById('video')
     this.overlay = document.getElementById('overlay')
     this.overlayContext = this.overlay.getContext('2d')
+    this.overlay2 = document.getElementById('overlay2')
+    this.overlay2Context = this.overlay2.getContext('2d')
     this.facetracker = new clm.Tracker({ useWebGL: true })
     this.facetracker.init(pModel) // pModel is a model more to pick from on github
 
@@ -50,42 +54,18 @@ class Actions {
   }
 
   loop() {
-    this.overlayContext.clearRect(0, 0, this.width, this.height)
+    this.overlay2Context.clearRect(0, 0, this.width, this.height)
     let positions = this.facetracker.getCurrentPosition()
     let box = this.pickBox(positions)
 
     if (box) {
-      this.facetracker.draw(this.overlay)
+      this.facetracker.draw(this.overlay2)
+      this.overlayContext.drawImage(this.video, 0, 0, this.width, this.height)
 
-      this.overlayContext.strokeRect(box.l, box.t, box.r - box.l, box.b - box.t)
+      this.overlay2Context.strokeRect(box.l, box.t, box.r - box.l, box.b - box.t)
       let imgData = this.overlayContext.getImageData(box.l, box.t, this.pixelResolution, this.pixelResolution)
-
-      this.processImage(imgData)
-    }
-  }
-
-  processImage(imgData) {
-    if (imgData) {
-      let red = []
-        , green = []
-        , blue = []
-        , alpha = []
-
-      for (let x = 0; x < this.pixelResolution * this.pixelResolution; x++) {
-        red[x] = imgData.data[0 + (4 * x)]
-        green[x] = imgData.data[1 + (4 * x)]
-        blue[x] = imgData.data[2 + (4 * x)]
-        alpha[x] = imgData.data[3 + (4 * x)]
-      }
-
-      return {
-        red: red
-        , green: green
-        , blue: blue
-        , alpha: alpha
-      }
-    } else {
-      return undefined
+      let imageAnalyser = new ImageAnalyser(this.hrController, this.pixelResolution, imgData)
+      imageAnalyser.t = 1
     }
   }
 
