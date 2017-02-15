@@ -16,6 +16,9 @@ describe('Action', () => {
     var canvas = document.createElement('CANVAS') // Create a <button> element
     canvas.id = 'overlay'
     document.body.appendChild(canvas)
+    var canvas2 = document.createElement('CANVAS') // Create a <button> element
+    canvas2.id = 'overlay2'
+    document.body.appendChild(canvas2)
   }
 
   function makePositions(a, b, c, d, e, f, g) {
@@ -30,6 +33,93 @@ describe('Action', () => {
     positions[36] = [0, g]
     return positions
   }
+
+  describe('stream', () => {
+    it('make sure no error', (done) => {
+      setupHTML()
+      window.navigator.getUserMedia = function (opt, ok, err) {
+        ok('')
+        err.err = 'no error'
+      }
+      window.URL.createObjectURL = function (input) {
+        return input
+      }
+
+      actions.stream()
+      done()
+    })
+
+    it('make sure error', (done) => {
+      setupHTML()
+      window.navigator.getUserMedia = function (opt, test, ok) {
+        ok('')
+      }
+      window.URL.createObjectURL = function (input) {
+        return input
+      }
+
+      actions.stream()
+      done()
+    })
+  })
+
+  describe('loop', () => {
+    it('test the whole class', (done) => {
+      actions.facetracker = []
+      actions.overlayContext = []
+      actions.overlay2Context = []
+      actions.facetracker.getCurrentPosition = function () {
+        return makePositions(4, 2, 4, 100, 200, 200, 100)
+      }
+      actions.facetracker.draw = function () {
+        return
+      }
+      actions.overlay2Context.clearRect = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.overlayContext.drawImage = function (v, t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.overlay2Context.strokeRect = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.overlayContext.getImageData = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.loop()
+      done()
+    })
+
+    it('test no face', (done) => {
+      actions.facetracker = []
+      actions.overlayContext = []
+      actions.overlay2Context = []
+      actions.facetracker.getCurrentPosition = function () {
+        return null
+      }
+      actions.facetracker.draw = function () {
+        return
+      }
+      actions.overlay2Context.clearRect = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.overlayContext.strokeRect = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.overlayContext.getImageData = function (t, t2, t3, t4) {
+        t4.why = null
+        return
+      }
+      actions.loop()
+      done()
+    })
+  })
 
   describe('pickBox', () => {
     it('should return underfined if passed undefined', (done) => {
@@ -60,86 +150,4 @@ describe('Action', () => {
     })
   })
 
-  describe('stream', () => {
-    it('make sure no error', (done) => {
-      setupHTML()
-      window.navigator.getUserMedia = function (opt, ok, err) {
-        ok('')
-        err.err = 'no error'
-      }
-      window.URL.createObjectURL = function (input) {
-        return input
-      }
-
-      actions.stream()
-      done()
-    })
-  })
-
-  describe('stream', () => {
-    it('make sure error', (done) => {
-      setupHTML()
-      window.navigator.getUserMedia = function (opt, test, ok) {
-        ok('')
-      }
-      window.URL.createObjectURL = function (input) {
-        return input
-      }
-
-      actions.stream()
-      done()
-    })
-  })
-
-  describe('takeImage', () => {
-    it('test the whole class', (done) => {
-      actions.facetracker = []
-      actions.overlayContext = []
-      actions.facetracker.getCurrentPosition = function () {
-        return makePositions(4, 2, 4, 100, 200, 200, 100)
-      }
-      actions.facetracker.draw = function () {
-        return
-      }
-      actions.overlayContext.clearRect = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.overlayContext.strokeRect = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.overlayContext.getImageData = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.loop()
-      done()
-    })
-
-    it('test no face', (done) => {
-      actions.facetracker = []
-      actions.overlayContext = []
-      actions.facetracker.getCurrentPosition = function () {
-        return null
-      }
-      actions.facetracker.draw = function () {
-        return
-      }
-      actions.overlayContext.clearRect = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.overlayContext.strokeRect = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.overlayContext.getImageData = function (t, t2, t3, t4) {
-        t4.why = null
-        return
-      }
-      actions.loop()
-      done()
-    })
-  })
 })
