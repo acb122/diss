@@ -11,7 +11,8 @@ class CircularBuffer {
       this.buffer[0] = value
       this.size++
     } else {
-      this.buffer[this.size % this.maxSize] = value
+      let index = this.size % this.maxSize
+      this.buffer[index] = value
       this.size++
     }
   }
@@ -30,6 +31,13 @@ class CircularBuffer {
       p1 = this.buffer.slice(0, this.size)
       return p1
     }
+  }
+
+  isBufferFull() {
+    if (this.maxSize < this.size) {
+      return true
+    }
+    return false
   }
 }
 

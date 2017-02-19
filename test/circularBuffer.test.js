@@ -60,4 +60,19 @@ describe('CircularBuffer', () => {
       done()
     })
   })
+  describe('isBufferFull', () => {
+    it('should return false when buffer not full', (done) => {
+      circularBuffer.push(1)
+      assert.equal(circularBuffer.isBufferFull(), false)
+      done()
+    })
+
+    it('should return true if full ', (done) => {
+      for (let x = 1; x <= 10; x++) {
+        circularBuffer.push(x)
+      }
+      assert.equal(circularBuffer.isBufferFull(), true)
+      done()
+    })
+  })
 })
