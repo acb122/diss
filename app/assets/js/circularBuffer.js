@@ -34,7 +34,7 @@ class CircularBuffer {
   }
 
   isBufferFull() {
-    if (this.maxSize < this.size) {
+    if (this.maxSize <= this.size) {
       return true
     }
     return false

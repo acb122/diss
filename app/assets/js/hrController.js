@@ -11,7 +11,8 @@
       this.greenAverage = 0
       this.blueAverage = 0
       this.circularBuffer = new CircularBuffer(64)
-      setInterval(this.temp.bind(this), 1000)
+      setInterval(this.calculateHR.bind(this), 1000)
+
     }
 
     // change to r g b
@@ -19,8 +20,17 @@
       this.circularBuffer.push(g)
     }
 
-    temp() {
+    calculateHR() {
+      let freq = this.calculatefft()
+      console.log('your heart rate:' + (freq * 60))
+      return freq * 60
+    }
+
+    calculatefft() {
+      console.log(this.circularBuffer.isBufferFull())
+
       if (this.circularBuffer.isBufferFull()) {
+
         let phasors = fft(this.circularBuffer.getBuffer())
           // Sample rate and coef is just used for length, and frequency step
         let frequencies = fftUtil.fftFreq(phasors, 15)
@@ -34,11 +44,7 @@
           return parseFloat(b.magnitude) - parseFloat(a.magnitude)
         })
 
-        console.log(both)
-
-        let freq = this.getFrequency(both)
-
-        console.log('your heart rate:' + (freq * 60))
+        return this.getFrequency(both)
 
       }
     }
@@ -46,7 +52,7 @@
     getFrequency(both) {
       let freq
       let counter = 0
-      while (!freq) {
+      while (!freq && both.length > counter) {
         if (both[counter].frequency > 0.8 && both[counter].frequency < 4.0) {
           freq = both[counter].frequency
         }

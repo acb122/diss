@@ -4,7 +4,7 @@
   , "description": "A website that tracks a users heart rate through a webcam"
   , "main": "app/server.js"
   , "scripts": {
-    "test": "npm run base-test ; rm -rf coverage/"
+    "test": "npm run base-test"
     , "build-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css"
     , "watch-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css -w"
     , "build-js": "./node_modules/.bin/webpack -p"
@@ -13,9 +13,9 @@
     , "build": "npm run clean && npm run build-css && npm run build-js"
     , "watch": "npm run clean && npm run watch-css & npm run watch-js & nodemon -w app/ -e js,jade"
     , "start": "node app/server"
-    , "base-test": "npm run lint && ./node_modules/.bin/istanbul cover -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register -r jsdom-global/register"
+    , "base-test": "npm run lint && ./node_modules/.bin/istanbul cover --report lcovonly -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register -r jsdom-global/register"
     , "travis": "npm run base-test && ./node_modules/.bin/codecov"
-    , "vso": "npm run lint && ./node_modules/.bin/istanbul cover -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register --reporter mocha-junit-reporter -r jsdom-global/register"
+    , "vso": "npm run lint && ./node_modules/.bin/istanbul cover  -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register --reporter mocha-junit-reporter -r jsdom-global/register"
     , "lint": "./node_modules/.bin/eslint -f unix ."
     , "postinstall": "npm run build"
   }
