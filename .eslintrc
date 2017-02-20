@@ -19,6 +19,6 @@
 
   "rules": {
     "one-var": 0
-    , "space-before-function-paren": ["error", "ignore"]
+    , "space-before-function-paren": 0
   }
 }
