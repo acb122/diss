@@ -52,7 +52,9 @@ class ImageAnalyser {
       if (!this.rgbRobust) {
         this.calculateRobustMean(r, g, b)
       } else {
-        this.hrController.circularBuffer.push(r, b, g)
+        this.hrController.circularBufferRed.push(r)
+        this.hrController.circularBufferGreen.push(g)
+        this.hrController.circularBufferBlue.push(b)
       }
     }
   }

@@ -7,8 +7,8 @@ class Actions {
 
   constructor(socket) {
     this.socket = socket.socket
-    this.hrController = new HrController(socket)
     this.frameRate = 15
+    this.hrController = new HrController(socket, this.frameRate)
     this.width = 1024
     this.height = 768
     this.pixelResolution = 50
