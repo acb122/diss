@@ -10,38 +10,13 @@
       this.redAverage = 0
       this.greenAverage = 0
       this.blueAverage = 0
-      this.circularBuffer = new CircularBuffer(512)
+      this.circularBuffer = new CircularBuffer(64)
       setInterval(this.temp.bind(this), 1000)
     }
 
-    getCurrentAverage(key) {
-      switch (key) {
-        case 'red':
-          return this.redAverage
-        case 'green':
-          return this.greenAverage
-        case 'blue':
-          return this.blueAverage
-        default:
-          return 0
-      }
-    }
-
-    setCurrentAverage(key, value) {
-      switch (key) {
-        case 'red':
-          this.redAverage = value
-          break
-        case 'green':
-          this.greenAverage = value
-          this.circularBuffer.push(value)
-          break
-        case 'blue':
-          this.blueAverage = value
-          break
-        default:
-          break
-      }
+    // change to r g b
+    setAverage(r, b, g) {
+      this.circularBuffer.push(g)
     }
 
     temp() {
@@ -58,6 +33,8 @@
         both.sort(function (a, b) {
           return parseFloat(b.magnitude) - parseFloat(a.magnitude)
         })
+
+        console.log(both)
 
         let freq = this.getFrequency(both)
 

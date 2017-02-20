@@ -33,28 +33,47 @@ class ImageAnalyser {
   }
 
   calculateMeans() {
-    for (var key in this.rgb) {
-      this.calculateMean(key)
+    if (this.rgb) {
+      if (this.rgbRobust) {
+        this.rgb = this.rgbRobust
+      }
+      let r = 0
+        , g = 0
+        , b = 0
+      for (let x = 0; x < this.rgb.red.length; x++) {
+        r += this.rgb.red[x]
+        g += this.rgb.green[x]
+        b += this.rgb.blue[x]
+      }
+
+      r = r / this.rgb.red.length
+      g = g / this.rgb.red.length
+      b = b / this.rgb.red.length
+      if (!this.rgbRobust) {
+        this.calculateRobustMean(r, g, b)
+      } else {
+        this.hrController.circularBuffer.push(r, b, g)
+      }
     }
   }
 
-  calculateMean(key) {
-    if (key !== 'alpha') {
-      let previousAverage = this.hrController.getCurrentAverage(key)
-      let average = 0
-        , count = 0
-      this.rgb[key].forEach((value) => {
-        if ((previousAverage - 10 < value && value < previousAverage + 10) || previousAverage === 0) {
-          average += value
-          count++
-        }
-      })
-      if (count === 0) {
-        this.hrController.setCurrentAverage(key, 0)
-      } else {
-        this.hrController.setCurrentAverage(key, average / count)
+  calculateRobustMean(r, g, b) {
+    this.rgbRobust = {}
+    this.rgbRobust.red = []
+    this.rgbRobust.green = []
+    this.rgbRobust.blue = []
+
+    for (let x = 0; x < this.rgb.red.length; x++) {
+
+      let d = Math.sqrt(this.rgb.red[x] - r) + Math.sqrt(this.rgb.blue[x] - b) + Math.sqrt(this.rgb.green[x] - g)
+      if (d < 50000) {
+
+        this.rgbRobust.red.push(this.rgb.red[x])
+        this.rgbRobust.green.push(this.rgb.green[x])
+        this.rgbRobust.blue.push(this.rgb.blue[x])
       }
     }
+    this.calculateMeans()
   }
 }
 module.exports = ImageAnalyser
