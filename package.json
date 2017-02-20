@@ -1,55 +1,57 @@
 {
-  "name": "ProjectName",
-  "version": "1.0.0",
-  "description": "Description of project",
-  "main": "app/server.js",
-  "scripts": {
-    "test": "npm run base-test ; rm -rf coverage/",
-    "build-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css",
-    "watch-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css -w",
-    "build-js": "./node_modules/.bin/webpack -p",
-    "watch-js": "./node_modules/.bin/webpack --watch",
-    "clean": "rm -rf app/assets/build/css/ && rm -rf app/assets/build/js/ && mkdir -p app/assets/build/css && mkdir -p app/assets/build/js",
-    "build": "npm run clean && npm run build-css && npm run build-js",
-    "watch": "npm run clean && npm run watch-css & npm run watch-js & nodemon -w app/ -e js,jade",
-    "start": "node app/server",
-    "base-test": "npm run lint && ./node_modules/.bin/istanbul cover -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register -r jsdom-global/register",
-    "travis": "npm run base-test && ./node_modules/.bin/codecov",
-    "lint": "./node_modules/.bin/eslint -f unix .",
-    "postinstall": "npm run build"
-  },
-  "engines": {
+  "name": "heartrate"
+  , "version": "1.0.0"
+  , "description": "A website that tracks a users heart rate through a webcam"
+  , "main": "app/server.js"
+  , "scripts": {
+    "test": "npm run base-test ; rm -rf coverage/"
+    , "build-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css"
+    , "watch-css": "./node_modules/stylus/bin/stylus app/assets/stylesheets/index.styl -o app/assets/build/css -w"
+    , "build-js": "./node_modules/.bin/webpack -p"
+    , "watch-js": "./node_modules/.bin/webpack --watch"
+    , "clean": "rm -rf app/assets/build/css/ && rm -rf app/assets/build/js/ && mkdir -p app/assets/build/css && mkdir -p app/assets/build/js"
+    , "build": "npm run clean && npm run build-css && npm run build-js"
+    , "watch": "npm run clean && npm run watch-css & npm run watch-js & nodemon -w app/ -e js,jade"
+    , "start": "node app/server"
+    , "base-test": "npm run lint && ./node_modules/.bin/istanbul cover -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register -r jsdom-global/register"
+    , "travis": "npm run base-test && ./node_modules/.bin/codecov"
+    , "vso": "npm run lint && ./node_modules/.bin/istanbul cover -x '**/lib/**' ./node_modules/.bin/_mocha -- --compilers js:babel-register --reporter mocha-junit-reporter -r jsdom-global/register"
+    , "lint": "./node_modules/.bin/eslint -f unix ."
+    , "postinstall": "npm run build"
+  }
+  , "engines": {
     "node": "6.9.0"
-  },
-  "author": "Authors name(s)",
-  "license": "GPLv3",
-  "devDependencies": {
-    "codecov": "^1.0.1",
-    "eslint": "^2.3.0",
-    "eslint-config-clock": "^1.2.0",
-    "eslint-config-standard": "^5.1.0",
-    "eslint-plugin-promise": "^3.3.0",
-    "eslint-plugin-standard": "^1.3.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "jsdom": "9.11.0",
-    "jsdom-global": "2.1.1",
-    "mocha": "^3.1.2",
-    "nodemon": "^1.11.0"
-  },
-  "dependencies": {
-    "async": "^2.1.4",
-    "babel": "^6.5.2",
-    "babel-core": "^6.18.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.18.0",
-    "express": "^4.14.0",
-    "fft-js": "0.0.11",
-    "jade": "^1.11.0",
-    "mongodb": "^2.2.15",
-    "morgan": "^1.7.0",
-    "path": "^0.12.7",
-    "socket.io": "^1.5.1",
-    "stylus": "^0.54.5",
-    "webpack": "^1.13.2"
+  }
+  , "author": "Authors name(s)"
+  , "license": "GPLv3"
+  , "devDependencies": {
+    "codecov": "^1.0.1"
+    , "eslint": "^2.3.0"
+    , "eslint-config-clock": "^1.2.0"
+    , "eslint-config-standard": "^5.1.0"
+    , "eslint-plugin-promise": "^3.3.0"
+    , "eslint-plugin-standard": "^1.3.1"
+    , "istanbul": "^1.0.0-alpha.2"
+    , "jsdom": "9.11.0"
+    , "jsdom-global": "2.1.1"
+    , "mocha": "^3.1.2"
+    , "mocha-junit-reporter": "^1.13.0"
+    , "nodemon": "^1.11.0"
+  }
+  , "dependencies": {
+    "async": "^2.1.4"
+    , "babel": "^6.5.2"
+    , "babel-core": "^6.18.0"
+    , "babel-loader": "^6.2.5"
+    , "babel-preset-es2015": "^6.18.0"
+    , "express": "^4.14.0"
+    , "fft-js": "0.0.11"
+    , "jade": "^1.11.0"
+    , "mongodb": "^2.2.15"
+    , "morgan": "^1.7.0"
+    , "path": "^0.12.7"
+    , "socket.io": "^1.5.1"
+    , "stylus": "^0.54.5"
+    , "webpack": "^1.13.2"
   }
 }

@@ -59,10 +59,7 @@
           return parseFloat(b.magnitude) - parseFloat(a.magnitude)
         })
 
-        // console.log(both)
-
         let freq = this.getFrequency(both)
-          // console.log(freq)
 
         console.log('your heart rate:' + (freq * 60))
 
