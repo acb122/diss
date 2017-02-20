@@ -30,7 +30,7 @@
     }
 
     calculateHR() {
-      if (this.circularBufferRed.isBufferFull()) {
+      if (this.circularBufferGreen.isBufferFull()) {
         let hr = {
           // red: this.calculatefft(this.circularBufferRed.getBuffer(), 'r') * 60,
           green: this.calculatefft(this.circularBufferGreen.getBuffer(), 'g') * 60
@@ -82,13 +82,13 @@
         return { x: b.frequency, y: b.magnitude }
       })
 
-      if (color === 'r') {
-        this.drawGraph(this.ctx, graf, color)
-      } else if (color === 'g') {
-        this.drawGraph(this.ctx2, graf, color)
-      } else {
-        this.drawGraph(this.ctx3, graf, color)
-      }
+      // if (color === 'r') {
+      //   this.drawGraph(this.ctx, graf, color)
+      // } else if (color === 'g') {
+      this.drawGraph(this.ctx2, graf, color)
+        // } else {
+        //   this.drawGraph(this.ctx3, graf, color)
+        // }
 
       both.sort(function (a, b) {
         return parseFloat(b.magnitude) - parseFloat(a.magnitude)

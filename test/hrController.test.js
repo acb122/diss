@@ -6,14 +6,20 @@ describe('HRController', () => {
 
   let hrController
   beforeEach((done) => {
-    hrController = new HRController('')
+    hrController = new HRController('', 15)
     done()
   })
+
+  function setupHTML() {
+    var p = document.createElement('P') // Create a <button> element
+    p.id = 'hr'
+    return p
+  }
 
   describe('setCurrentAverage', () => {
     it('should set values', (done) => {
       hrController.setAverage(5, 15, 25)
-      assert.deepEqual(hrController.circularBuffer.getBuffer(), [25], 'not setting value correct')
+      assert.deepEqual(hrController.circularBufferGreen.getBuffer(), [15], 'not setting value correct')
       done()
     })
   })
@@ -44,14 +50,37 @@ describe('HRController', () => {
 
   describe('calculateHR', () => {
     it('should return HR', (done) => {
-      hrController.circularBuffer = new CircularBuffer(4)
-      hrController.circularBuffer.push(1)
-      hrController.circularBuffer.push(0)
-      hrController.circularBuffer.push(1)
-      hrController.circularBuffer.push(0)
+      hrController.drawGraph = function () {}
+      let p = setupHTML()
+      hrController.p = p
+      hrController.circularBufferGreen = new CircularBuffer(4)
+      hrController.circularBufferGreen.push(1)
+      hrController.circularBufferGreen.push(0)
+      hrController.circularBufferGreen.push(1)
+      hrController.circularBufferGreen.push(0)
       let hr = hrController.calculateHR()
-      assert.equal(hr, 225, 'not setting value correct')
+      assert.equal(hr.green, 225, 'not setting value correct')
+      done()
+    })
+
+    it('should return null', (done) => {
+      hrController.drawGraph = function () {}
+      let p = setupHTML()
+      hrController.p = p
+      hrController.circularBufferGreen = new CircularBuffer(4)
+      let hr = hrController.calculateHR()
+      assert.equal(hr, null, 'not setting value correct')
       done()
     })
   })
+
+  describe('drawGraph', () => {
+    it('should return HR', (done) => {
+      let p = setupHTML()
+      let data = [{ x: 3, y: 0.1 }]
+      hrController.drawGraph(p, data, 'r')
+      done()
+    })
+  })
+
 })

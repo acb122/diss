@@ -25,7 +25,7 @@ class ImageAnalyser {
         red: red
         , green: green
         , blue: blue
-        , alpha: alpha
+          // , alpha: alpha
       }
     } else {
       return undefined
@@ -60,15 +60,17 @@ class ImageAnalyser {
   }
 
   calculateRobustMean(r, g, b) {
+    console.log(r, g, b)
     this.rgbRobust = {}
     this.rgbRobust.red = []
     this.rgbRobust.green = []
     this.rgbRobust.blue = []
 
-    for (let x = 0; x < this.rgb.red.length; x++) {
+    for (let x = 0; x < this.rgb.green.length; x++) {
 
-      let d = Math.sqrt(this.rgb.red[x] - r) + Math.sqrt(this.rgb.blue[x] - b) + Math.sqrt(this.rgb.green[x] - g)
-      if (d < 50000) {
+      let d = Math.pow(this.rgb.red[x] - r, 2) + Math.pow(this.rgb.blue[x] - b, 2) + Math.pow(this.rgb.green[x] - g, 2)
+      console.log(d)
+      if (d < 25000) {
 
         this.rgbRobust.red.push(this.rgb.red[x])
         this.rgbRobust.green.push(this.rgb.green[x])

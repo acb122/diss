@@ -34,18 +34,19 @@ describe('ImageAnalyser', () => {
     it('should return average', (done) => {
       imageAnalyser.rgb = { red: [2, 2, 2, 2], green: [2, 2, 2, 2], blue: [2, 2, 2, 2] }
       imageAnalyser.calculateMeans()
-      assert.equal(hrController.circularBuffer.getBuffer(), 2, 'average not being set correctly or calculated')
+      assert.equal(hrController.circularBufferGreen.getBuffer(), 2, 'average not being set correctly or calculated')
       done()
     })
 
     it('should return average ignore weird value', (done) => {
       imageAnalyser.rgb = {
-        red: [2, 2, 2, 2, 2, 2, 2, 2]
+        red: [2, 2, 2, 2, 24, 22, 22, 22]
         , green: [2, 2, 2, 250, 2, 2, 2, 2]
-        , blue: [2, 2, 2, 2, 2, 2, 2, 2]
+        , blue: [22, 22, 2, 2, 2, 2, 2, 2]
       }
       imageAnalyser.calculateMeans()
-      assert.equal(hrController.circularBuffer.getBuffer(), 2, 'average not being set correctly or calculated')
+      console.log(hrController.circularBufferGreen.getBuffer())
+      assert.equal(hrController.circularBufferGreen.getBuffer(), 2, 'average not being set correctly or calculated')
       done()
     })
   })
